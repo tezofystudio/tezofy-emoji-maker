@@ -1,0 +1,446 @@
+/* =========================================================================
+   Tezofy Emoji Maker — extras.css  (v4)
+   3D / cinematic UI upgrade  +  mobile-first responsive layer
+   ------------------------------------------------------------------------
+   এই ফাইলটি সম্পূর্ণ additive — মূল styles.css অপরিবর্তিত থাকে, তাই
+   বিদ্যমান কোনো ফিচার/টুল ভাঙার ঝুঁকি নেই। পরে লোড হয় বলে যেখানে দরকার
+   সেখানে override করে।
+   ========================================================================= */
+
+/* ============================ 0. TOKENS ============================ */
+:root{
+  --edge-hi : inset 0 1px 0 rgba(255,255,255,.16);
+  --edge-lo : inset 0 -1px 0 rgba(0,0,0,.45);
+  --sh-1    : 0 1px 2px rgba(0,0,0,.5);
+  --sh-2    : 0 8px 18px -10px rgba(0,0,0,.95), 0 2px 4px rgba(0,0,0,.5);
+  --sh-3    : 0 20px 44px -20px rgba(0,0,0,.95), 0 6px 14px -8px rgba(0,0,0,.7);
+  --sh-pop  : 0 24px 60px -24px rgba(124,92,255,.6), 0 10px 26px -14px rgba(0,0,0,.9);
+  --persp   : 1200px;
+  --glass   : linear-gradient(158deg, rgba(255,255,255,.10), rgba(255,255,255,.02) 42%, rgba(0,0,0,.06));
+  --panel   : linear-gradient(158deg, rgba(48,53,104,.92), rgba(28,31,64,.96));
+  --thick   : 5px;              /* 3D button side wall */
+}
+html{ -webkit-text-size-adjust:100%; scroll-padding-top:90px; }
+body{
+  -webkit-tap-highlight-color:transparent;
+  overflow-x:clip;              /* clip scroll container বানায় না → sticky নিরাপদ */
+}
+
+/* ============================ 1. BACKGROUND ============================ */
+/* 1a. Aurora orbs */
+body::before{
+  content:''; position:fixed; inset:-10%;
+  z-index:0; pointer-events:none;
+  background:
+    radial-gradient(46vw 34vw at 82% 4%,  rgba(124,92,255,.30), transparent 62%),
+    radial-gradient(40vw 30vw at 6% 12%,  rgba(255,92,138,.22), transparent 62%),
+    radial-gradient(38vw 32vw at 50% 96%, rgba(45,212,191,.18), transparent 64%);
+  filter: blur(6px);
+  animation: aurora 22s ease-in-out infinite alternate;
+}
+@keyframes aurora{
+  0%  { transform: translate3d(0,0,0)     scale(1);    opacity:.9; }
+  50% { transform: translate3d(-2%,2%,0)  scale(1.06); opacity:1;  }
+  100%{ transform: translate3d(2%,-2%,0)  scale(1.02); opacity:.85;}
+}
+/* 1b. perspective grid floor (synthwave) */
+body::after{
+  content:''; position:fixed; left:-40%; right:-40%; bottom:-6vh; height:58vh;
+  z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(124,92,255,.30) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,212,191,.16) 1px, transparent 1px);
+  background-size:46px 46px, 46px 46px;
+  transform: perspective(320px) rotateX(63deg);
+  transform-origin: bottom center;
+  -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.35) 45%, transparent 82%);
+  mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.35) 45%, transparent 82%);
+  opacity:.55;
+  animation: gridrun 7s linear infinite;
+}
+@keyframes gridrun{ to{ background-position: 0 46px, 46px 0; } }
+/* 1c. star / emoji particle canvas + vignette */
+#bgFx{ position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.85; }
+/* NOTE: .topbar-এর position:sticky মূল styles.css-এ আছে — এখানে আর ছোঁয়া হবে না */
+body > .topbar{ z-index:60; }
+main, footer{ position:relative; z-index:2; }
+
+/* ============================ 2. TOPBAR ============================ */
+.topbar{
+  background:linear-gradient(180deg, rgba(26,29,62,.94), rgba(14,15,34,.88));
+  -webkit-backdrop-filter: blur(16px) saturate(1.35);
+  backdrop-filter: blur(16px) saturate(1.35);
+  box-shadow: 0 14px 34px -18px rgba(0,0,0,.95), var(--edge-hi);
+  transition: padding .28s ease, box-shadow .28s ease, background .28s ease;
+}
+.topbar.scrolled{
+  padding-top:8px; padding-bottom:8px;
+  background:linear-gradient(180deg, rgba(20,22,48,.97), rgba(11,12,28,.94));
+  box-shadow: 0 20px 46px -20px rgba(0,0,0,1), 0 1px 0 rgba(124,92,255,.28), var(--edge-hi);
+}
+.logo{ perspective:600px; }
+.logo-face{
+  display:inline-block;
+  text-shadow: 0 8px 18px rgba(255,92,138,.55);
+  transition: transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.logo:hover .logo-face{ transform: rotateY(22deg) rotateX(-10deg) translateZ(16px) scale(1.08); }
+.logo-text b{ filter: drop-shadow(0 2px 6px rgba(255,92,138,.45)); }
+.logo-badge{
+  box-shadow: 0 8px 18px -8px rgba(45,212,191,.85), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 0 rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.25);
+  letter-spacing:.4px;
+}
+.tab{
+  position:relative; transform-style:preserve-3d;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+  transition: transform .16s ease, box-shadow .2s ease, background .2s ease, color .2s;
+}
+.tab:hover{ box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 6px 14px -8px rgba(0,0,0,.9); }
+.tab.active{
+  background:linear-gradient(160deg,#ff83a8,#ff5c8a 42%,#a05cff);
+  box-shadow: 0 12px 26px -10px rgba(255,92,138,.8), inset 0 1px 0 rgba(255,255,255,.5),
+              inset 0 -2px 0 rgba(0,0,0,.28), 0 2px 0 rgba(0,0,0,.5);
+  text-shadow: 0 1px 2px rgba(0,0,0,.35);
+}
+.tab.active::after{
+  content:''; position:absolute; left:18%; right:18%; bottom:-5px; height:3px; border-radius:99px;
+  background:linear-gradient(90deg,transparent,#ffd6e5,transparent); filter:blur(1px); opacity:.85;
+}
+.lang-btn{ box-shadow: 0 4px 0 rgba(0,0,0,.5), var(--edge-hi); }
+.lang-btn:active{ transform: translateY(2px); }
+
+/* ============================ 3. HERO ============================ */
+.hero{ perspective:var(--persp); padding-top:64px; }
+.hero h1{ text-shadow:none; animation: titleIn .95s cubic-bezier(.2,.85,.2,1) both; }
+@keyframes titleIn{
+  from{ opacity:0; transform: translateZ(-90px) rotateX(16deg) translateY(26px); filter:blur(6px); }
+  to  { opacity:1; transform:none; filter:none; }
+}
+.grad-text{
+  background-size:220% auto;
+  filter: drop-shadow(0 3px 0 rgba(0,0,0,.55)) drop-shadow(0 14px 26px rgba(124,92,255,.45));
+  animation: gradShift 7s linear infinite;
+}
+@keyframes gradShift{ to{ background-position:220% center; } }
+.hero-sub{
+  text-shadow: 0 2px 10px rgba(0,0,0,.6);
+  animation: riseIn .9s .18s cubic-bezier(.2,.85,.2,1) both;
+}
+.hero-cta{ perspective:900px; }
+.hero-cta .btn{ animation: riseIn .9s .3s cubic-bezier(.2,.85,.2,1) both; }
+@keyframes riseIn{ from{ opacity:0; transform: translateY(22px) rotateX(12deg); } to{ opacity:1; transform:none; } }
+
+/* floaties → 3D floating emoji field behind the headline */
+.hero-floaties{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+.hero-floaties span{
+  z-index:0; opacity:.5;
+  text-shadow: 0 12px 22px rgba(0,0,0,.7);
+  animation: float3d 8s ease-in-out infinite;
+  transform-style:preserve-3d;
+}
+@keyframes float3d{
+  0%,100%{ transform: translate3d(0,0,0) rotate(-8deg) rotateY(0deg) scale(1); }
+  45%    { transform: translate3d(8px,-22px,40px) rotate(9deg) rotateY(24deg) scale(1.08); }
+  70%    { transform: translate3d(-6px,-10px,10px) rotate(2deg) rotateY(-14deg) scale(.97); }
+}
+.hero-floaties.nudge{ transform: translate3d(calc(var(--px,0) * 14px), calc(var(--py,0) * 10px), 0); transition: transform .35s ease-out; }
+.hero > h1, .hero > .hero-sub, .hero > .hero-cta{ position:relative; z-index:1; }
+
+/* ============================ 4. STATS ============================ */
+.stats{ perspective:1000px; }
+.stat{
+  position:relative; background:var(--panel);
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow: var(--sh-3), var(--edge-hi);
+  transform-style:preserve-3d;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s;
+}
+.stat b{ filter: drop-shadow(0 6px 14px rgba(45,212,191,.35)); }
+.stat span{ display:block; margin-top:4px; }
+.stats .stat.tilt{
+  transform: rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(18px) scale(1.03);
+  box-shadow: var(--sh-pop), var(--edge-hi);
+}
+
+/* ============================ 5. CARDS ============================ */
+.feature-grid, .pack-grid{ perspective:var(--persp); }
+.fcard{
+  position:relative; overflow:hidden;
+  background:var(--panel);
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow: var(--sh-3), var(--edge-hi);
+  transform-style:preserve-3d;
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .3s, border-color .3s;
+}
+.feature-grid .fcard.tilt{
+  transform: rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(22px);
+  border-color: rgba(124,92,255,.55);
+  box-shadow: var(--sh-pop), var(--edge-hi);
+}
+.fcard::after{               /* pointer glare */
+  content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.16), transparent 46%);
+  opacity:0; transition:opacity .35s;
+}
+.feature-grid .fcard.tilt::after{ opacity:1; }
+.fcard .ficon{
+  display:inline-grid; place-items:center; width:58px; height:58px; font-size:30px;
+  border-radius:17px;
+  background:linear-gradient(150deg, rgba(255,255,255,.18), rgba(255,255,255,.03) 55%, rgba(0,0,0,.16));
+  box-shadow: 0 12px 22px -12px rgba(0,0,0,.95), var(--edge-hi), var(--edge-lo);
+  transform: translateZ(38px);
+  transition: transform .35s cubic-bezier(.2,.8,.2,1);
+  line-height:1;
+}
+.feature-grid .fcard.tilt .ficon{ transform: translateZ(58px) scale(1.06) rotate(-4deg); }
+.fcard h3{ transform: translateZ(20px); }
+.fcard p{ transform: translateZ(10px); }
+
+/* pack cards */
+.pcard{
+  position:relative;
+  background:var(--panel); border:1px solid rgba(255,255,255,.09);
+  box-shadow: var(--sh-2), var(--edge-hi);
+  transform-style:preserve-3d;
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .3s, border-color .3s;
+}
+.pack-grid .pcard.tilt{
+  transform: rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(16px);
+  border-color: rgba(45,212,191,.55);
+  box-shadow: var(--sh-pop), var(--edge-hi);
+}
+.pcard .thumb{
+  box-shadow: inset 0 4px 14px rgba(0,0,0,.55), inset 0 -1px 0 rgba(255,255,255,.06);
+  border-radius:12px; overflow:hidden;
+  transform-style:preserve-3d;
+}
+.pcard .thumb img{
+  transition: transform .4s cubic-bezier(.2,.8,.2,1), filter .4s;
+  filter: drop-shadow(0 10px 12px rgba(0,0,0,.55));
+}
+.pack-grid .pcard.tilt .thumb img{ transform: translateZ(34px) rotateY(12deg) rotateX(6deg) scale(1.08); }
+
+/* ============================ 6. BUTTONS / CHIPS / INPUTS ============================ */
+.btn{
+  position:relative; overflow:hidden; transform-style:preserve-3d;
+  box-shadow: 0 var(--thick) 0 rgba(0,0,0,.55), 0 12px 24px -12px rgba(0,0,0,.95), var(--edge-hi);
+  transition: transform .13s ease, box-shadow .13s ease, background .2s ease;
+}
+.btn:hover{ transform: translateY(-3px); box-shadow: 0 calc(var(--thick) + 2px) 0 rgba(0,0,0,.55), 0 20px 34px -14px rgba(0,0,0,1), var(--edge-hi); }
+.btn:active{ transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,.6), 0 6px 12px -8px rgba(0,0,0,.9), var(--edge-hi); }
+.btn-primary{
+  background:linear-gradient(160deg,#ff8fb0,#ff5c8a 40%,#a05cff);
+  box-shadow: 0 var(--thick) 0 #5b2a72, 0 16px 32px -12px rgba(255,92,138,.75), inset 0 1px 0 rgba(255,255,255,.45);
+  text-shadow: 0 1px 3px rgba(0,0,0,.35);
+}
+.btn-primary:hover{ box-shadow: 0 calc(var(--thick) + 2px) 0 #5b2a72, 0 24px 42px -14px rgba(255,92,138,.85), inset 0 1px 0 rgba(255,255,255,.45); }
+.btn-ghost{ background:linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); }
+
+/* ripple */
+.ripple{
+  position:absolute; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%) scale(0);
+  width:14px; height:14px; background:radial-gradient(circle, rgba(255,255,255,.85), rgba(255,255,255,0) 70%);
+  animation: rip .6s ease-out forwards;
+}
+@keyframes rip{ to{ transform: translate(-50%,-50%) scale(26); opacity:0; } }
+
+.chip{
+  min-height:38px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 4px 10px -6px rgba(0,0,0,.9);
+  transition: transform .14s ease, box-shadow .18s ease, background .2s, color .2s, border-color .2s;
+}
+.chip:hover{ transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 8px 16px -8px rgba(0,0,0,1); }
+.chip.active{
+  background:linear-gradient(160deg,#8ee7db,#2dd4bf 45%,#5b8cff);
+  box-shadow: 0 8px 18px -8px rgba(45,212,191,.85), inset 0 1px 0 rgba(255,255,255,.6), inset 0 -2px 0 rgba(0,0,0,.22);
+  color:#04121a;
+}
+.swatch{ box-shadow: 0 4px 10px -4px rgba(0,0,0,.95), var(--edge-hi); transition:transform .16s, box-shadow .16s; }
+.swatch:hover{ transform: scale(1.14) translateZ(10px); }
+.base-emojis button{
+  box-shadow: 0 4px 10px -6px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.08);
+  transition: transform .16s cubic-bezier(.2,.8,.2,1), box-shadow .16s, border-color .16s;
+}
+.base-emojis button:hover{ transform: scale(1.22) translateY(-2px); box-shadow: 0 10px 18px -8px rgba(0,0,0,1); }
+
+.tinput, select, .codebox{
+  box-shadow: inset 0 2px 7px rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.05);
+  transition: box-shadow .2s ease, border-color .2s ease;
+}
+.tinput:focus, select:focus{
+  outline:none; border-color:rgba(124,92,255,.75);
+  box-shadow: inset 0 2px 7px rgba(0,0,0,.5), 0 0 0 3px rgba(124,92,255,.28), 0 0 26px rgba(124,92,255,.35);
+}
+.style-btn{
+  box-shadow: 0 5px 0 rgba(0,0,0,.45), 0 12px 22px -14px rgba(0,0,0,1), var(--edge-hi);
+  transition: transform .16s, box-shadow .16s, background .2s, color .2s;
+}
+.style-btn.active{
+  box-shadow: 0 6px 0 rgba(0,0,0,.42), 0 18px 30px -12px rgba(124,92,255,.8), inset 0 1px 0 rgba(255,255,255,.5);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+.pbtn{ min-height:34px; box-shadow: 0 3px 0 rgba(0,0,0,.5), var(--edge-hi); transition: transform .13s, box-shadow .13s; }
+.pbtn:hover{ transform: translateY(-2px); }
+.pbtn:active{ transform: translateY(1px); box-shadow:0 1px 0 rgba(0,0,0,.6); }
+
+/* ============================ 7. PANELS / STAGES ============================ */
+.cgroup, .studio, .empty, .badge-box{
+  background:var(--panel);
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow: var(--sh-2), var(--edge-hi);
+}
+.studio{
+  background:linear-gradient(140deg, rgba(124,92,255,.22), rgba(45,212,191,.14) 60%, rgba(255,92,138,.12));
+  border-color:rgba(124,92,255,.45);
+  box-shadow: var(--sh-3), 0 0 40px -18px rgba(124,92,255,.7), var(--edge-hi);
+}
+.cgroup h4, .studio h3{ text-shadow: 0 2px 8px rgba(0,0,0,.55); }
+.preview-box, .lab-stage, .css-stage, .badge-prev-wrap, .dropzone{
+  box-shadow: inset 0 6px 22px rgba(0,0,0,.6), inset 0 -1px 0 rgba(255,255,255,.06), 0 24px 50px -26px rgba(0,0,0,1);
+}
+.preview-box img, .preview-box canvas, .lab-stage canvas{
+  filter: drop-shadow(0 22px 26px rgba(0,0,0,.6));
+}
+.lab-stage{ background:radial-gradient(circle at 50% 38%, #333a75 0%, #191c3c 55%, #0e1026 100%); }
+.dropzone:hover, .dropzone.drag{ box-shadow: inset 0 6px 22px rgba(0,0,0,.55), 0 0 0 3px rgba(255,92,138,.25), 0 24px 50px -26px rgba(255,92,138,.5); }
+.pack-head h2, .pack-head h3{ text-shadow: 0 6px 22px rgba(124,92,255,.4); }
+footer{ background:linear-gradient(180deg, transparent, rgba(124,92,255,.06)); }
+
+/* ============================ 8. REVEAL / A11Y ============================ */
+.reveal{ opacity:0; transform: translateY(26px) rotateX(8deg); transform-origin: 50% 100%; }
+.reveal.in{ opacity:1; transform:none; transition: opacity .7s ease, transform .75s cubic-bezier(.2,.85,.2,1); }
+:focus-visible{ outline:2px solid var(--acc3); outline-offset:2px; border-radius:10px; }
+
+/* ============================ 9. RESPONSIVE ============================ */
+
+/* ---- 9a. tablet & below: nav becomes one swipeable row ---- */
+@media (max-width:900px){
+  .topbar{ flex-wrap:wrap; gap:8px 10px; padding:10px 14px; }
+  .logo{ flex:1 1 auto; min-width:0; }
+  .logo-text{ font-size:18px; }
+  .logo-badge{ display:none; }
+  .lang-btn{ flex:0 0 auto; }
+  .tabs{
+    order:3; width:100%; margin:2px 0 0; flex-wrap:nowrap; gap:8px;
+    overflow-x:auto; overflow-y:hidden;
+    scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch;
+    scrollbar-width:none; padding:6px 2px 10px;
+    -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 26px), transparent 100%);
+    mask-image:linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 26px), transparent 100%);
+  }
+  .tabs::-webkit-scrollbar{ display:none; }
+  .tab{ flex:0 0 auto; scroll-snap-align:center; min-height:44px; padding:12px 15px; font-size:13.5px; }
+  .lang-btn{ min-height:42px; padding:10px 14px; }
+
+  /* touch-comfortable controls everywhere */
+  .btn{ min-height:46px; padding:12px 16px; }
+  .chip{ min-height:42px; padding:10px 14px; }
+  .base-emojis button{ min-width:44px; min-height:44px; }
+  .swatch{ width:40px; height:40px; }
+  .check input{ width:20px; height:20px; }
+  select, .tinput{ min-height:46px; }
+  .mini{ font-size:13.5px; min-height:40px; }
+  .pbtn{ min-height:40px; }
+
+  input[type=range]{ -webkit-appearance:none; appearance:none; background:transparent; height:34px; }
+  input[type=range]::-webkit-slider-runnable-track{
+    height:8px; border-radius:99px;
+    background:linear-gradient(90deg, rgba(255,92,138,.65), rgba(124,92,255,.65));
+    box-shadow: inset 0 2px 5px rgba(0,0,0,.7);
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:26px; height:26px; margin-top:-9px; border-radius:50%;
+    background:linear-gradient(160deg,#fff,#c9cdff);
+    box-shadow: 0 4px 10px rgba(0,0,0,.7), inset 0 -2px 0 rgba(0,0,0,.2);
+  }
+  input[type=range]::-moz-range-track{ height:8px; border-radius:99px; background:rgba(124,92,255,.5); }
+  input[type=range]::-moz-range-thumb{ width:24px; height:24px; border:0; border-radius:50%; background:#fff; }
+}
+
+/* ---- 9b. phones ---- */
+@media (max-width:640px){
+  main{ padding:16px 12px calc(48px + env(safe-area-inset-bottom)); }
+  .hero{ padding:32px 2px 20px; }
+  .hero h1{ font-size:clamp(23px, 7.2vw, 34px); line-height:1.48; }
+  .hero-sub{ font-size:14px; line-height:1.85; max-width:100%; margin:14px auto 22px; }
+  /* প্রথম CTA ফুল-উইডথ, বাকি দুটি পাশাপাশি → মোবাইলে খাড়া জায়গা বাঁচে */
+  .hero-cta{ display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 4px; }
+  .hero-cta .btn{ width:100%; font-size:14px; padding:12px 10px; }
+  .hero-cta .btn:first-child{ grid-column:1 / -1; font-size:15px; }
+  .hero-floaties span{ opacity:.16; font-size:24px; filter:blur(.6px); }
+  .hero-floaties span:nth-child(n+9){ display:none; }
+
+  .stats{ grid-template-columns:repeat(2,1fr); gap:10px; margin:6px 0 22px; }
+  .stat{ padding:14px 10px; }
+  .stat b{ font-size:26px; }
+  .stat span{ font-size:12px; }
+  .feature-grid{ grid-template-columns:1fr; gap:12px; }
+  .fcard{ padding:18px; }
+  .fcard .ficon{ width:50px; height:50px; font-size:26px; }
+
+  .workbench{ grid-template-columns:1fr; gap:16px; }
+  .preview-box{ min-height:0; padding:14px; }
+  .preview-box img{ width:min(260px,74%); }
+  .preview-box canvas{ width:min(280px,92%); }
+  .lab-stage canvas{ width:min(300px,94%); }
+  .css-stage{ min-height:230px; padding:14px; }
+  .dropzone{ padding:24px 14px; }
+  .dz-ico{ font-size:34px; }
+  .studio{ padding:14px; }
+  .cgroup{ padding:14px; }
+  .studio h3{ font-size:16px; line-height:1.5; }
+  .studio .row.wrap{ flex-direction:column; align-items:stretch; }
+  .studio .row.wrap .btn{ width:100%; }
+  .tinput{ min-width:0; width:100%; }
+  .row.wrap{ gap:8px; }
+  .row.wrap > .btn{ flex:1 1 auto; }
+  .mini{ width:100%; justify-content:space-between; }
+  .mini select{ flex:0 1 auto; }
+  .fxparams .fp{ width:100%; justify-content:space-between; }
+  .fxparams input[type=range]{ width:min(180px,55%); flex:1 1 auto; }
+  .fxparams{ gap:10px; }
+  .codebox{ font-size:11.5px; min-height:150px; }
+  .pack-head h2{ font-size:22px; }
+  .pack-head p{ font-size:13.5px; }
+  .pack-grid{ grid-template-columns:repeat(auto-fill,minmax(138px,1fr)); gap:10px; }
+  /* grid blow-out fix: কার্ডের ভেতরের বাটনের সারি যেন কার্ডকে চওড়া করে না ফেলে */
+  .pcard{ min-width:0; }
+  .pcard .row{ flex-wrap:wrap; gap:6px; }
+  .pcard .pbtn{ min-width:0; flex:1 1 auto; padding-left:8px; padding-right:8px; }
+  .pcard .thumb{ height:108px; }
+  .pcard .thumb img{ max-height:98px; }
+  .badge-prev-wrap{ padding:22px 10px; overflow-x:auto; }
+  .css-stage .ek-wrap{ transform:scale(.92); }
+  footer{ padding:20px 14px calc(20px + env(safe-area-inset-bottom)); font-size:12px; line-height:1.8; }
+  #toast{ left:12px !important; right:12px !important; transform:none !important; text-align:center; font-size:13px; }
+}
+
+/* ---- 9c. very small phones (320–380px) ---- */
+@media (max-width:380px){
+  .logo-text{ font-size:16px; }
+  .tab{ font-size:12.5px; padding:11px 12px; }
+  .hero h1{ font-size:22px; }
+  .stat b{ font-size:23px; }
+  .pack-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .pcard{ padding:9px; }
+  .pcard .pbtn{ font-size:11px; padding:7px 6px; }
+  .btn{ font-size:13px; padding:11px 13px; }
+}
+
+/* ---- 9d. desktop & large: preview stays in view while editing ---- */
+@media (min-width:1024px){
+  .workbench > .preview-col{ position:sticky; top:96px; align-self:start; }
+  .fcard{ padding:24px; }
+}
+
+/* ============================ 10. REDUCED MOTION ============================ */
+@media (prefers-reduced-motion: reduce){
+  body::before, body::after{ animation:none; }
+  #bgFx{ display:none; }
+  .reveal{ opacity:1 !important; transform:none !important; }
+  *, *::before, *::after{
+    animation-duration:.001ms !important; animation-iteration-count:1 !important;
+    transition-duration:.001ms !important; scroll-behavior:auto !important;
+  }
+}
