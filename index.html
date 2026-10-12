@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tezofy Emoji Maker — 2D • 3D • 5D | তেজোফি ইমোজি মেকার</title>
+<link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body>
+<header class="topbar">
+  <div class="logo" id="logoBtn">
+    <span class="logo-face">😄</span>
+    <span class="logo-text" data-t="logo">Tezofy <b>Emoji Maker</b></span>
+    <span class="logo-badge">2D•3D•5D</span>
+  </div>
+  <nav class="tabs">
+    <button class="tab active" data-tab="home" data-t="tab_home">🏠 হোম</button>
+    <button class="tab" data-tab="builder" data-t="tab_builder">🎨 বিল্ডার + AI স্টুডিও</button>
+    <button class="tab" data-tab="image" data-t="tab_image">🧪 ইমোজি স্টুডিও</button>
+    <button class="tab" data-tab="lab" data-t="tab_lab">🎬 অ্যানিমেশন ল্যাব</button>
+    <button class="tab" data-tab="css" data-t="tab_css">⚡ CSS স্টুডিও</button>
+    <button class="tab" data-tab="packs" data-t="tab_packs">🤖 AI প্যাক</button>
+    <button class="tab" data-tab="mine" data-t="tab_mine">💾 আমার সংগ্রহ</button>
+  </nav>
+  <button class="lang-btn" id="langBtn">EN</button>
+</header>
+
+<main>
+  <!-- ============ HOME ============ -->
+  <section id="tab-home" class="panel active">
+    <div class="hero">
+      <h1 data-t="hero_t">নিজের মতো ইমোজি বানাও,<br><span class="grad-text">২ডি • ৩ডি • ৫ডি</span> স্টাইলে!</h1>
+      <p class="hero-sub" data-t="hero_s">MyEmojiMaker, Emotiyou আর MakeEmoji-এর সব ফিচার এক জায়গায় — ৮৩ অ্যানিমেশন, লেয়ার এডিটর, CSS কোড স্টুডিও আর ৮৭টি ইমোজি প্যাক। কোনো সাইন-আপ লাগবে না!</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" data-goto="builder" data-t="hero_c1">🎨 বানানো শুরু করি</button>
+        <button class="btn" data-goto="lab" data-t="hero_c2">🎬 অ্যানিমেশন ল্যাব</button>
+        <button class="btn btn-ghost" data-goto="packs" data-t="hero_c3">🤖 AI প্যাক</button>
+      </div>
+      <div class="hero-floaties" id="heroFloaties"></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>৮৭</b><span data-t="st1">ইমোজি প্যাকে</span></div>
+      <div class="stat"><b>৮৩</b><span data-t="st2">অ্যানিমেশন ইফেক্ট</span></div>
+      <div class="stat"><b>৩</b><span data-t="st3">ডাইমেনশন স্টাইল</span></div>
+      <div class="stat"><b>∞</b><span data-t="st4">কম্বিনেশন</span></div>
+    </div>
+    <div class="feature-grid" id="featureGrid"></div>
+  </section>
+
+  <!-- ============ BUILDER ============ -->
+  <section id="tab-builder" class="panel">
+    <div class="studio">
+      <h3 data-t="studio_t">🧠 AI স্টুডিও — প্রম্পট লিখে ইমোজি বানাও</h3>
+      <div class="row wrap">
+        <input type="text" id="promptInput" class="tinput" data-tp="studio_p" placeholder="যেমন: রাগী লাল মুখ, চশমা পরা, পার্টি হ্যাট, ভালোবাসার চোখ...">
+        <button class="btn btn-primary" id="btnPrompt" data-t="studio_b">✨ বানাও</button>
+      </div>
+    </div>
+    <div class="workbench">
+      <div class="preview-col">
+        <div class="style-switch">
+          <button class="style-btn active" data-style="2d">2D</button>
+          <button class="style-btn" data-style="3d">3D</button>
+          <button class="style-btn" data-style="5d">5D</button>
+        </div>
+        <div class="checker preview-box"><img id="builderPreview" alt="emoji preview"></div>
+        <div class="row wrap">
+          <label class="mini"><span data-t="size_l">সাইজ</span>
+            <select id="dlSize"><option value="128">128px</option><option value="256" selected>256px</option><option value="512">512px</option></select>
+          </label>
+          <button class="btn" id="btnRandom" data-t="b_rand">🎲 র‍্যান্ডম</button>
+          <button class="btn" id="btnSave" data-t="b_save">💾 সেভ</button>
+          <button class="btn btn-primary" id="btnDownload" data-t="b_dl">⬇️ PNG</button>
+          <button class="btn" id="btnToLab" data-t="b_lab">🎬 অ্যানিমেট</button>
+        </div>
+      </div>
+      <div class="controls-col" id="builderControls"></div>
+    </div>
+  </section>
+
+  <!-- ============ IMAGE ============ -->
+  <section id="tab-image" class="panel">
+    <div class="pack-head">
+      <h2 data-t="st_t">🧪 ইমোজি স্টুডিও — 2D/3D/5D কনভার্টার</h2>
+      <p data-t="st_s">ছবি আপলোড করো বা টেক্সট লেখো — ব্যাকগ্রাউন্ড রিমুভ, জুম, ক্রপ, কালার FX আর 2D·3D·5D ডেপথ ইফেক্টে কনভার্ট করো।</p>
+    </div>
+    <div class="workbench">
+      <div class="preview-col">
+        <div id="dropZone" class="dropzone">
+          <div class="dz-inner">
+            <span class="dz-ico">📤</span>
+            <p data-t="dz_t">ছবি টেনে আনো বা ক্লিক করে বাছো</p>
+            <small data-t="dz_s">PNG / JPG / WebP — সব কিছু ব্রাউজারেই প্রসেস হয়</small>
+          </div>
+          <input type="file" id="fileInput" accept="image/*" hidden>
+        </div>
+        <div class="cgroup">
+          <h4 data-t="base_t">🙃 অথবা বেস ইমোজি বেছে নাও</h4>
+          <div class="base-emojis" id="baseEmojis"></div>
+        </div>
+        <div class="checker preview-box" id="imgPreviewWrap" hidden>
+          <canvas id="imgCanvas" width="512" height="512"></canvas>
+        </div>
+        <div class="row wrap" id="imgActions" hidden>
+          <button class="btn btn-primary" id="btnImgDownload" data-t="b_dl">⬇️ PNG</button>
+          <button class="btn" id="btnImgToLab" data-t="b_lab">🎬 অ্যানিমেট</button>
+          <button class="btn" id="btnImgClear" data-t="i_clear">🗑️ মুছুন</button>
+        </div>
+      </div>
+      <div class="controls-col">
+        <div class="cgroup"><h4 data-t="st_mode">🎯 সোর্স মোড</h4>
+          <div class="chips" id="modeChips">
+            <button class="chip active" data-v="image" data-t="st_mimg">📷 ছবি</button>
+            <button class="chip" data-v="text" data-t="st_mtxt">✏️ টেক্সট</button>
+          </div>
+        </div>
+        <div class="cgroup" id="textGroup" style="display:none"><h4 data-t="st_text">✏️ টেক্সট ইমোজি — ইফেক্ট ইঞ্জিন</h4>
+          <input type="text" id="stText" class="tinput" data-tp="st_textph" placeholder="যেমন: WOW, জয়, LOVE..." maxlength="14">
+          <label class="mini"><span data-t="st_fill">ফিল রং</span> <input type="color" id="stColor" value="#ffd93b"> <span data-t="st_out">আউটলাইন</span> <input type="color" id="stOut" value="#7c3aed"></label>
+          <label class="mini"><span data-t="st_outw">আউটলাইন পুরুত্ব</span> <input type="range" id="stOutW" min="0" max="60" value="26"></label>
+          <label class="mini"><span data-t="st_font">ফন্ট</span>
+            <select id="stFont" class="tinput" style="flex:1">
+              <option value="0" data-t="st_f0">🅱️ বোল্ড ব্ল্যাক</option>
+              <option value="1" data-t="st_f1">🎈 কমিক</option>
+              <option value="2" data-t="st_f2">🇧 বাংলা</option>
+              <option value="3" data-t="st_f3">📜 সেরিফ</option>
+              <option value="4" data-t="st_f4">💻 মোনো</option>
+            </select>
+          </label>
+          <label class="check"><input type="checkbox" id="stGradOn" checked> <span data-t="st_grad">🌗 গ্র্যাডিয়েন্ট ফিল</span></label>
+          <label class="check"><input type="checkbox" id="stRainbow"> <span data-t="st_rainbow">🌈 রংধনু অক্ষর</span></label>
+        </div>
+        <div class="cgroup"><h4 data-t="i_shape">🖼️ ক্রপ আকৃতি</h4>
+          <div class="chips" id="shapeChips">
+            <button class="chip active" data-v="none" data-t="i_none">⬜ ফিট</button>
+            <button class="chip" data-v="cover" data-t="i_cover">🖼️ কাভার</button>
+            <button class="chip" data-v="circle" data-t="i_circ">⚪ সার্কেল</button>
+            <button class="chip" data-v="round" data-t="i_round">🟦 স্কয়ারকল</button>
+          </div>
+        </div>
+        <div class="cgroup"><h4 data-t="i_bg">✂️ ব্যাকগ্রাউন্ড রিমুভার</h4>
+          <div class="chips" id="bgChips">
+            <button class="chip active" data-v="0" data-t="i_off">অফ</button>
+            <button class="chip" data-v="1" data-t="i_on">হালকা ব্যাকগ্রাউন্ড মুছুন</button>
+          </div>
+          <label class="mini"><span data-t="i_tol">টলারেন্স</span> <input type="range" id="bgTol" min="10" max="120" value="45"></label>
+        </div>
+        <div class="cgroup"><h4 data-t="i_fx">✨ কালার ইফেক্ট</h4>
+          <div class="chips" id="fxChips">
+            <button class="chip active" data-v="none" data-t="f_none">🙂 নরমাল</button>
+            <button class="chip" data-v="neon" data-t="f_neon">🌈 নিয়ন গ্লো</button>
+            <button class="chip" data-v="gray" data-t="f_gray">⬛ গ্রেরস্কেল</button>
+            <button class="chip" data-v="sepia" data-t="f_sepia">🟫 সেপিয়া</button>
+            <button class="chip" data-v="invert" data-t="f_inv">🔄 ইনভার্ট</button>
+            <button class="chip" data-v="saturate" data-t="f_vivid">🎨 ভাইব্রিড</button>
+            <button class="chip" data-v="warm" data-t="f_warm">🌅 ওয়ার্ম</button>
+            <button class="chip" data-v="cool" data-t="f_cool">🧊 কুল</button>
+          </div>
+        </div>
+        <div class="cgroup"><h4 data-t="i_st">🧊 স্টাইল (2D/3D/5D)</h4>
+          <div class="chips" id="styleChips">
+            <button class="chip active" data-v="none" data-t="i_stnone">🙂 নরমাল</button>
+            <button class="chip" data-v="2d">2D</button>
+            <button class="chip" data-v="3d">3D</button>
+            <button class="chip" data-v="5d">5D</button>
+          </div>
+          <label class="mini"><span data-t="i_depth">ডেপথ</span> <input type="range" id="stDepth" min="10" max="100" value="65"></label>
+          <label class="mini"><span data-t="i_zoom">🔍 জুম</span> <input type="range" id="stZoom" min="50" max="200" value="100"> <b id="stZoomVal">100</b>%</label>
+        </div>
+        <div class="cgroup"><h4 data-t="i_size">📐 আউটপুট সাইজ</h4>
+          <div class="chips" id="sizeChips">
+            <button class="chip" data-v="112">112</button>
+            <button class="chip" data-v="128">128</button>
+            <button class="chip active" data-v="256">256</button>
+            <button class="chip" data-v="512">512</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LAB ============ -->
+  <section id="tab-lab" class="panel">
+    <div class="workbench">
+      <div class="preview-col">
+        <div class="lab-stage"><canvas id="labCanvas" width="480" height="480"></canvas></div>
+        <div class="row wrap">
+          <button class="btn btn-primary" id="btnLabGif" data-t="l_gif">🎞️ GIF ডাউনলোড</button>
+          <button class="btn" id="btnLabWebm" data-t="l_webm">🎥 WebM</button>
+          <button class="btn" id="btnLabPng" data-t="l_png">⬇️ PNG</button>
+        </div>
+        <div class="row wrap">
+          <label class="mini"><span data-t="l_plat">প্ল্যাটফর্ম</span>
+            <select id="platSel">
+              <option value="none" data-t="p_none">সাধারণ</option>
+              <option value="discord">Discord</option><option value="slack">Slack</option>
+              <option value="twitch">Twitch</option><option value="teams">Teams</option>
+            </select>
+          </label>
+          <span class="hint" id="platHint"></span>
+        </div>
+        <p class="hint" data-t="l_hint">💡 সোর্স পাঠাও: বিল্ডার/ছবি ট্যাবের "অ্যানিমেট" বাটন, বা AI প্যাকের 🎬 বাটন চেপে।</p>
+      </div>
+      <div class="controls-col">
+        <div class="cgroup"><h4 data-t="l_anim">🎞️ অ্যানিমেশন (৮৩টি)</h4>
+          <div class="chips" id="animCats" style="margin-bottom:10px"></div>
+          <div class="chips" id="animChips"></div>
+          <div class="fxparams" id="fxParams"></div>
+        </div>
+        <div class="cgroup"><h4 data-t="l_ctrl">🎛️ কন্ট্রোল</h4>
+          <div class="row wrap">
+            <label class="mini"><span data-t="l_speed">গতি</span>
+              <select id="labSpeed"><option value="0.5" data-t="s_slow">ধীর</option><option value="1" selected data-t="s_norm">নরমাল</option><option value="2" data-t="s_fast">দ্রুত</option></select>
+            </label>
+            <label class="mini"><span data-t="l_dir">দিক</span>
+              <select id="labDir"><option value="1">➡️</option><option value="-1">⬅️</option></select>
+            </label>
+            <label class="mini"><span data-t="l_size">সাইজ</span>
+              <select id="labSize"><option value="112">112</option><option value="128">128</option><option value="256" selected>256</option><option value="512">512</option></select>
+            </label>
+            <label class="mini"><span data-t="l_qual">কোয়ালিটি</span>
+              <select id="labQual"><option value="16" data-t="q_low">কম</option><option value="24" selected data-t="q_med">মাঝারি</option><option value="32" data-t="q_high">উচ্চ</option></select>
+            </label>
+          </div>
+          <div class="row wrap" style="margin-top:10px">
+            <label class="mini"><span data-t="l_color">কালার</span>
+              <select id="labColor">
+                <option value="none" data-t="f_none">নরমাল</option><option value="gray" data-t="f_gray">গ্রেরস্কেল</option>
+                <option value="sepia" data-t="f_sepia">সেপিয়া</option><option value="invert" data-t="f_inv">ইনভার্ট</option>
+                <option value="saturate" data-t="f_vivid">ভাইব্রিড</option>
+              </select>
+            </label>
+            <label class="mini"><span data-t="l_scene">সিন/ব্যাকগ্রাউন্ড</span>
+              <select id="labScene">
+                <option value="transparent" data-t="sc_tr">স্বচ্ছ</option><option value="dark" data-t="sc_dark">গাঢ়</option>
+                <option value="gradient" data-t="sc_grad">গ্রেডিয়েন্ট</option><option value="space" data-t="sc_space">মহাকাশ</option>
+                <option value="synthwave" data-t="sc_synth">সিন্থওয়েভ</option><option value="custom" data-t="sc_cust">কাস্টম ছবি</option>
+              </select>
+            </label>
+            <label class="btn mini" style="cursor:pointer">📤 <span data-t="sc_up">ব্যাকগ্রাউন্ড আপলোড</span>
+              <input type="file" id="bgUpload" accept="image/*" hidden>
+            </label>
+          </div>
+        </div>
+        <div class="cgroup"><h4 data-t="l_stk">🏷️ স্টিকার</h4><div class="chips" id="stickerChips"></div></div>
+        <div class="cgroup" id="layerEditorBox"></div>
+        <div class="cgroup"><h4 data-t="l_src">🖼️ বর্তমান সোর্স</h4><div id="labSourceInfo" class="srcinfo" data-t="l_nosrc">কোনো সোর্স নেই — ডিফল্ট হাসিমুখ ব্যবহার হচ্ছে।</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CSS STUDIO ============ -->
+  <section id="tab-css" class="panel">
+    <div class="pack-head">
+      <h2 data-t="cs_t">⚡ CSS স্টুডিও</h2>
+      <p data-t="cs_s">ইমোজি বাছাই করো, অ্যানিমেশন-ইফেক্ট দাও, তারপর রেডি-টু-ব্যবহার HTML/CSS কোড কপি করো — গ্লো, শাইন, স্পার্কল, হোভার 3ডি সব সহ!</p>
+    </div>
+    <div class="workbench">
+      <div class="preview-col">
+        <div class="cgroup"><h4 data-t="cs_src">🎭 ইমোজি বাছাই করো</h4>
+          <select id="csEmoji" class="tinput"></select>
+          <div class="row wrap" style="margin-top:8px">
+            <button class="btn" id="csUploadBtn" data-t="cs_up">📤 নিজের ছবি আপলোড</button>
+            <input type="file" id="csFile" accept="image/*" hidden>
+          </div>
+        </div>
+        <div class="css-stage checker" id="csStage">
+          <div class="ek-wrap" id="csWrap"><img id="csImg" class="ek-img" alt="emoji"></div>
+        </div>
+        <div class="row wrap">
+          <button class="btn btn-primary" id="csDlHtml" data-t="cs_dlhtml">⬇️ HTML ফাইল</button>
+          <button class="btn" id="csDlJson">⬇️ JSON</button>
+          <button class="btn" id="csDlPng">⬇️ PNG</button>
+          <button class="btn" id="csToLab" data-t="cs_tolab">🎬 GIF ল্যাবে নাও</button>
+        </div>
+      </div>
+      <div class="controls-col">
+        <div class="cgroup"><h4 data-t="cs_anim">🎬 CSS অ্যানিমেশন</h4>
+          <div class="chips" id="csAnimChips"></div>
+        </div>
+        <div class="cgroup"><h4 data-t="cs_ctl">🎚️ কন্ট্রোল</h4>
+          <label class="mini"><span data-t="cs_size">সাইজ</span> <input type="range" id="csSize" min="48" max="256" step="4" value="128"> <b id="csSizeVal">128</b>px</label>
+          <label class="mini"><span data-t="cs_dur">সময়কাল</span> <input type="range" id="csDur" min="0.5" max="4" step="0.1" value="1.6"> <b id="csDurVal">1.6</b>s</label>
+        </div>
+        <div class="cgroup"><h4 data-t="cs_fx">✨ ইফেক্ট</h4>
+          <label class="check"><input type="checkbox" id="csGlowOn"> <span data-t="cs_glow">🌟 গ্লো</span></label>
+          <label class="mini"><span data-t="cs_glowc">গ্লো রং</span> <input type="color" id="csGlow" value="#7c5cff"> <span data-t="cs_blur">ব্লার</span> <input type="range" id="csGlowB" min="2" max="40" value="14"></label>
+          <label class="check"><input type="checkbox" id="csShine"> <span data-t="cs_shine">✨ শাইন সুইপ</span></label>
+          <label class="check"><input type="checkbox" id="csSpark"> <span data-t="cs_spark">⭐ স্পার্কল তারা</span></label>
+          <label class="check"><input type="checkbox" id="csHover"> <span data-t="cs_hover">🖱️ হোভার 3ডি টিল্ট</span></label>
+          <label class="check"><input type="checkbox" id="csPop"> <span data-t="cs_pop">👆 ক্লিক পপ</span></label>
+        </div>
+        <div class="cgroup"><h4 data-t="cs_code">💻 এমবেড কোড</h4>
+          <div class="chips" id="csCodeTabs">
+            <button class="chip active" data-c="html">HTML</button>
+            <button class="chip" data-c="css">CSS</button>
+            <button class="chip" data-c="json">JSON</button>
+            <button class="chip" data-c="full">FULL</button>
+          </div>
+          <textarea id="csCode" class="codebox" readonly spellcheck="false"></textarea>
+          <button class="btn btn-primary" id="csCopy" data-t="cs_copy">📋 কোড কপি করো</button>
+        </div>
+      </div>
+    </div>
+    <div class="cgroup badge-box">
+      <h4 data-t="bg_t">🏷️ ব্যাজ জেনারেটর</h4>
+      <p class="mini" data-t="bg_s">ইমোজি + টেক্সট দিয়ে সুন্দর অ্যানিমেটেড ব্যাজ বানাও — ওয়েবসাইট বা রিডমিতে বসানোর জন্য কোড সহ।</p>
+      <div class="row wrap">
+        <select id="bgEmoji" class="tinput"></select>
+        <input type="text" id="bgText" class="tinput" data-tp="bg_ph" placeholder="ব্যাজের টেক্সট লেখো..." style="flex:1;min-width:180px">
+      </div>
+      <div class="row wrap" style="margin-top:8px">
+        <div class="chips" id="bgStyleChips">
+          <button class="chip active" data-v="bg-glass" data-t="bg_glass">🧊 গ্লাস</button>
+          <button class="chip" data-v="bg-grad" data-t="bg_grad">🌈 গ্র্যাডিয়েন্ট</button>
+          <button class="chip" data-v="bg-dark" data-t="bg_dark">🌑 ডার্ক</button>
+          <button class="chip" data-v="bg-ok" data-t="bg_ok">✅ সবুজ</button>
+        </div>
+        <div class="chips" id="bgAnimChips"></div>
+        <label class="mini"><span data-t="cs_dur">সময়কাল</span> <input type="range" id="bgDur" min="0.5" max="4" step="0.1" value="1.6"> <b id="bgDurVal">1.6</b>s</label>
+      </div>
+      <div class="badge-prev-wrap checker"><span class="badge-prev bg-glass" id="bgPrev"><img id="bgImg" alt=""><b id="bgLabel">Tezofy Emoji Maker</b></span></div>
+      <div class="chips" id="bgCodeTabs">
+        <button class="chip active" data-c="html">HTML</button>
+        <button class="chip" data-c="css">CSS</button>
+        <button class="chip" data-c="json">JSON</button>
+      </div>
+      <textarea id="bgCode" class="codebox" readonly spellcheck="false"></textarea>
+      <div class="row wrap">
+        <button class="btn btn-primary" id="bgCopy" data-t="cs_copy">📋 কোড কপি করো</button>
+        <button class="btn" id="bgDlHtml" data-t="bg_dlhtml">⬇️ HTML ফাইল</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PACKS ============ -->
+  <section id="tab-packs" class="panel">
+    <div class="pack-head">
+      <h2 data-t="pk_t">🤖 AI ইমোজি প্যাক</h2>
+      <p data-t="pk_s">৮৭টি ইমোজি — এআই-জেনারেটেড + তেজোফি 3ডি, সবগুলো ট্রান্সপারেন্ট পিএনজি। সার্চ, ফিল্টার, কোড কপি, ZIP ও গিফট প্যাক।</p>
+      <input type="text" id="packSearch" class="tinput search" data-tp="pk_search" placeholder="🔍 ইমোজি খোঁজো...">
+      <div class="row wrap" style="justify-content:center; margin:10px 0">
+        <div class="chips" id="packCats">
+          <button class="chip active" data-v="all" data-t="pk_all">🌟 সব</button>
+          <button class="chip" data-v="study" data-t="pk_study">📚 পড়াশোনা</button>
+          <button class="chip" data-v="bengali" data-t="pk_bengali">🎭 মজার বাঙালি</button>
+          <button class="chip" data-v="beggar" data-t="pk_beggar">🥣 মজার ভিক্ষুক</button>
+          <button class="chip" data-v="tezofy" data-t="pk_tezofy">🌟 তেজোফি 3ডি</button>
+        </div>
+        <button class="btn btn-primary" id="btnZip" data-t="pk_zip">📦 ZIP ডাউনলোড</button>
+        <button class="btn" id="btnGift" data-t="pk_gift">🎁 গিফট প্যাক (JSON)</button>
+      </div>
+    </div>
+    <div class="pack-grid" id="packGrid"></div>
+  </section>
+
+  <!-- ============ MINE ============ -->
+  <section id="tab-mine" class="panel">
+    <div class="pack-head">
+      <h2 data-t="mn_t">💾 আমার সংগ্রহ</h2>
+      <p data-t="mn_s">বিল্ডারে "সেভ" করা ইমোজি এখানে জমা থাকে (তোমার ব্রাউজারেই)।</p>
+    </div>
+    <div class="pack-grid" id="mineGrid"></div>
+    <div class="empty" id="mineEmpty" data-t="mn_e">এখনো কিছু সেভ করোনি! বিল্ডারে গিয়ে 🎲 র্যান্ডম চেপে  সেভ করো।</div>
+  </section>
+</main>
+
+<footer><p data-t="foot">😄 Tezofy Emoji Maker — ভালোবাসা দিয়ে বানানো 🇧🇩 | সব প্রসেসিং ব্রাউজারে, কোনো সার্ভার নেই</p></footer>
+<script src="app.js?v=3"></script>
+</body>
+</html>
