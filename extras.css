@@ -444,3 +444,269 @@ footer{ background:linear-gradient(180deg, transparent, rgba(124,92,255,.06)); }
     transition-duration:.001ms !important; scroll-behavior:auto !important;
   }
 }
+/* =========================================================================
+   Tezofy Emoji Maker — extras.css  PART-2
+   STUDIO APP SHELL  (ফোন-অ্যাপ স্টাইল এডিটিং UI)
+   ------------------------------------------------------------------------
+   builder / image / lab / css — এই ৪টি স্টুডিও এখন এক-পেজ অ্যাপ ফ্রেমে:
+   মাঝখানে প্রিভিউ, উপরে টুল টাইল, নিচে অ্যাকশন ডক, টুল চাপলে 3D পপআপ শিট।
+   পুরোনো এলিমেন্টগুলোই নতুন ফ্রেমে সাজানো হয় (JS করে), তাই কোনো ফিচার
+   হারায় না। শুধু এই ৪টি ট্যাবে পেজ-স্ক্রল বন্ধ থাকে; হোম/প্যাক/সংগ্রহ আগের মতো।
+   ========================================================================= */
+
+/* ---------------------------------------------------------------- 1. MODE */
+body.app-mode{ overflow:hidden; height:100dvh; }
+body.app-mode main{ max-width:none; padding:0; }
+body.app-mode footer{ display:none; }
+body.app-mode .pack-head{ display:none; }
+body.app-mode main > .panel.active{ min-height:0; }
+/* কনটেন্ট নতুন ফ্রেমে সরে যাওয়ার পর খালি খাপগুলো লুকিয়ে দিই (হোয়াইট-স্পেস থেকে ১৬px খরচ হতো) */
+body.app-mode .workbench,
+body.app-mode .preview-col:empty,
+body.app-mode .controls-col:empty{ display:none; }
+body.app-mode #bgFx{ opacity:.5; }
+body.app-mode .topbar{ padding-top:8px; padding-bottom:8px; }
+body.app-mode .tab{ min-height:42px; padding:9px 13px; font-size:12.5px; }
+@media (max-width:900px){
+  body.app-mode .topbar{ padding-left:10px; padding-right:10px; }
+}
+
+/* ------------------------------------------------------------- 2. FRAME */
+.app-frame{
+  position:relative; display:flex; flex-direction:column; gap:7px;
+  width:100%; max-width:640px; margin:0 auto;
+  height:calc(var(--frameH, 70vh));
+  padding:8px 8px 9px; overflow:hidden;
+  background:linear-gradient(172deg, #262a58 0%, #1b1f45 42%, #141634 100%);
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:24px;
+  box-shadow:
+    0 44px 80px -34px rgba(0,0,0,1),
+    0 0 0 1px rgba(0,0,0,.65),
+    inset 0 1px 0 rgba(255,255,255,.16),
+    inset 0 0 70px rgba(124,92,255,.16),
+    0 0 60px -20px rgba(124,92,255,.35);
+  perspective:1400px;
+}
+@media (max-width:900px){
+  .app-frame{
+    max-width:none; border-radius:0; border-left:0; border-right:0; border-bottom:0;
+    padding:6px 7px 7px; box-shadow:0 -1px 0 rgba(255,255,255,.06), inset 0 1px 0 rgba(255,255,255,.10);
+  }
+}
+
+/* ---- 2a. toolbar (উপরের টুল টাইল) ---- */
+.app-toolbar{
+  display:flex; gap:7px; padding:1px 2px 5px; flex:0 0 auto;
+  overflow-x:auto; overflow-y:hidden; scroll-snap-type:x proximity;
+  scrollbar-width:none; -webkit-overflow-scrolling:touch;
+  -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 18px), transparent 100%);
+  mask-image:linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 18px), transparent 100%);
+}
+.app-toolbar::-webkit-scrollbar{ display:none; }
+.tbtn{
+  flex:0 0 auto; scroll-snap-align:center;
+  width:64px; min-height:62px; padding:6px 4px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  font-family:inherit; color:var(--ink); cursor:pointer;
+  border-radius:16px; border:1px solid rgba(255,255,255,.11);
+  background:linear-gradient(158deg, rgba(255,255,255,.11), rgba(255,255,255,.02) 52%, rgba(0,0,0,.16));
+  box-shadow: 0 4px 0 rgba(0,0,0,.5), 0 13px 22px -15px rgba(0,0,0,1),
+              inset 0 1px 0 rgba(255,255,255,.18), inset 0 -1px 0 rgba(0,0,0,.4);
+  transform-style:preserve-3d;
+  transition: transform .16s cubic-bezier(.2,.8,.2,1), box-shadow .16s, border-color .2s, background .2s;
+}
+.tbtn .ti{ font-size:21px; line-height:1; filter:drop-shadow(0 3px 6px rgba(0,0,0,.65)); }
+.tbtn .tl{
+  font-size:9.5px; font-weight:800; letter-spacing:.1px; color:var(--mut);
+  text-align:center; line-height:1.15; max-width:58px;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.tbtn:hover{ transform:translateY(-2px); border-color:rgba(124,92,255,.45); }
+.tbtn:active{ transform:translateY(3px) scale(.97); box-shadow:0 1px 0 rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.12); }
+.tbtn.on{
+  border-color:rgba(255,92,138,.55);
+  background:linear-gradient(158deg, rgba(255,92,138,.28), rgba(160,92,255,.18) 60%, rgba(0,0,0,.2));
+  box-shadow: 0 4px 0 #5b2a72, 0 16px 26px -13px rgba(255,92,138,.75), inset 0 1px 0 rgba(255,255,255,.3);
+}
+.tbtn.on .tl{ color:#fff; }
+.tbtn[hidden]{ display:none; }
+
+/* ---- 2b. stage (মাঝের প্রিভিউ) ---- */
+.app-stage{
+  position:relative; flex:1 1 auto; min-height:0;
+  display:grid; place-items:center; overflow:hidden;
+  border-radius:18px;
+  background:
+    radial-gradient(64% 58% at 50% 34%, #343a7c 0%, #1d2148 52%, #0e1026 100%);
+  box-shadow: inset 0 10px 34px rgba(0,0,0,.78), inset 0 -1px 0 rgba(255,255,255,.07), 0 1px 0 rgba(255,255,255,.05);
+  transition: transform .36s cubic-bezier(.2,.85,.2,1), filter .36s;
+}
+.app-stage .floor{
+  position:absolute; left:-6%; right:-6%; bottom:0; height:48%; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(124,92,255,.30) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,212,191,.16) 1px, transparent 1px);
+  background-size:30px 30px, 30px 30px;
+  transform:perspective(250px) rotateX(64deg); transform-origin:bottom center;
+  -webkit-mask-image:linear-gradient(to top, #000 0%, rgba(0,0,0,.4) 55%, transparent 88%);
+  mask-image:linear-gradient(to top, #000 0%, rgba(0,0,0,.4) 55%, transparent 88%);
+  opacity:.55;
+}
+.app-stage .halo{
+  position:absolute; width:76%; padding-bottom:76%; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle, rgba(124,92,255,.34), rgba(45,212,191,.10) 45%, transparent 68%);
+  filter:blur(16px);
+}
+.stage-inner{
+  position:relative; z-index:3; width:100%; height:100%; padding:10px;
+  display:grid; place-items:center; min-height:0;
+}
+.app-frame.sheet-open .app-stage{ transform:scale(.962) translateY(-5px); filter:brightness(.7) saturate(.92); }
+
+/* প্রিভিউ এলিমেন্টগুলো stage-এ ফিট করা */
+.app-stage .preview-box{
+  width:100%; height:100%; min-height:0; padding:0; border:0; background:transparent; box-shadow:none;
+}
+.app-stage .preview-box img{
+  width:auto; height:auto; max-width:94%; max-height:100%;
+  filter:drop-shadow(0 26px 30px rgba(0,0,0,.68));
+  animation:levitate 6.5s ease-in-out infinite;
+}
+.app-stage .preview-box canvas,
+.app-stage .lab-stage canvas{ width:auto; height:auto; max-width:100%; max-height:100%; }
+.app-stage .preview-box img[src=""], .app-stage .preview-box img:not([src]){ visibility:hidden; }
+.app-stage .lab-stage{
+  width:100%; height:100%; padding:0; border:0; box-shadow:none; background:transparent;
+  display:grid; place-items:center;
+}
+.app-stage .dropzone{
+  width:100%; max-width:440px; padding:26px 16px; margin:auto;
+  background:linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.01));
+  border:2px dashed rgba(255,255,255,.28); border-radius:20px;
+  box-shadow: inset 0 6px 22px rgba(0,0,0,.45);
+}
+.app-stage .dropzone .dz-ico{ font-size:40px; }
+.app-stage .style-switch{
+  position:absolute; z-index:6; top:9px; left:9px; right:9px;
+  background:rgba(12,13,30,.5); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.10); border-radius:15px; padding:4px; gap:4px;
+  box-shadow:0 10px 24px -14px rgba(0,0,0,1), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.app-stage .style-switch .style-btn{ min-height:38px; padding:8px; font-size:13.5px; border-radius:11px; box-shadow:none; }
+.app-stage .style-switch .style-btn.active{
+  box-shadow:0 6px 16px -6px rgba(124,92,255,.85), inset 0 1px 0 rgba(255,255,255,.45);
+}
+@keyframes levitate{
+  0%,100%{ transform:translateY(0) rotate(-1.2deg); }
+  50%    { transform:translateY(-13px) rotate(1.4deg); }
+}
+
+/* ---- 2c. dock (নিচের অ্যাকশন বার) ---- */
+.app-dock{
+  flex:0 0 auto; display:flex; align-items:stretch; gap:7px; padding:6px;
+  border-radius:18px;
+  background:linear-gradient(180deg, rgba(40,45,92,.95), rgba(22,25,54,.96));
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow: 0 12px 30px -16px rgba(0,0,0,1), inset 0 1px 0 rgba(255,255,255,.13), inset 0 -1px 0 rgba(0,0,0,.5);
+}
+.dock-row{
+  flex:1 1 auto; min-width:0; display:flex; align-items:stretch; gap:7px;
+}
+.app-dock .btn{
+  flex:1 1 0; min-width:0; min-height:54px; padding:7px 5px; border-radius:14px;
+  font-size:10.5px; line-height:1.2; white-space:normal; word-break:break-word;
+  display:flex; align-items:center; justify-content:center; text-align:center;
+}
+.app-dock .btn-primary{ flex:1.3 1 0; }
+.app-dock .dock-hint{
+  flex:1 1 auto; display:flex; align-items:center; justify-content:center; gap:7px;
+  font-size:11.5px; color:var(--mut); font-weight:700; padding:8px;
+}
+.app-dock[data-empty="1"] .btn{ display:none; }
+
+/* ------------------------------------------------------------- 3. SHEET */
+.sheetwrap{ position:absolute; inset:0; z-index:40; pointer-events:none; }
+.sheetwrap.open{ pointer-events:auto; }
+.sheet-backdrop{
+  position:absolute; inset:0; opacity:0; transition:opacity .3s ease;
+  background:radial-gradient(130% 80% at 50% 100%, rgba(8,7,20,.80), rgba(8,7,20,.42) 55%, rgba(8,7,20,.12));
+  -webkit-backdrop-filter:blur(2.5px); backdrop-filter:blur(2.5px);
+}
+.sheetwrap.open .sheet-backdrop{ opacity:1; }
+.sheet{
+  position:absolute; left:0; right:0; bottom:0; max-height:74%;
+  display:flex; flex-direction:column; overflow:hidden;
+  border-radius:22px 22px 0 0;
+  background:linear-gradient(180deg, rgba(44,50,102,.99), rgba(24,27,58,.995));
+  border:1px solid rgba(255,255,255,.12); border-bottom:0;
+  box-shadow: 0 -26px 60px -20px rgba(0,0,0,1), inset 0 1px 0 rgba(255,255,255,.18), 0 0 60px -10px rgba(124,92,255,.4);
+  transform:translateY(104%) rotateX(16deg); transform-origin:50% 100%;
+  transition: transform .42s cubic-bezier(.2,.9,.25,1);
+}
+.sheetwrap.open .sheet{ transform:none; }
+.sheetwrap.short .sheet{ max-height:58%; }
+.sheet.dragging{ transition:none; }
+.sheet-grab{
+  width:54px; height:5px; margin:9px auto 3px; border-radius:99px;
+  background:rgba(255,255,255,.3); box-shadow:inset 0 1px 0 rgba(0,0,0,.5);
+  cursor:grab; touch-action:none;
+}
+.sheet-head{ display:flex; align-items:center; gap:10px; padding:5px 14px 9px; flex:0 0 auto; }
+.sheet-head .sh-ico{
+  width:34px; height:34px; border-radius:12px; display:grid; place-items:center; font-size:18px;
+  background:linear-gradient(158deg, rgba(255,255,255,.16), rgba(0,0,0,.18));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 6px 14px -8px rgba(0,0,0,1);
+}
+.sheet-head h4{ flex:1 1 auto; font-size:15px; line-height:1.3; }
+.sheet-x{
+  flex:0 0 auto; width:38px; height:38px; border-radius:13px; cursor:pointer; font-size:15px;
+  color:var(--ink); background:linear-gradient(158deg, rgba(255,255,255,.12), rgba(0,0,0,.2));
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 5px 12px -6px rgba(0,0,0,1);
+}
+.sheet-x:active{ transform:translateY(2px); }
+.sheet-body{
+  flex:1 1 auto; min-height:0; overflow-y:auto; overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch; padding:2px 12px calc(20px + env(safe-area-inset-bottom));
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 6px);
+  mask-image:linear-gradient(to bottom, transparent 0, #000 6px);
+}
+.sheet-body .cgroup{
+  background:transparent; border:0; box-shadow:none; padding:2px 0 12px; border-radius:0;
+}
+.sheet-body .cgroup > h4{ display:none; }          /* শিরোনাম শিট-হেডে দেখানো হয় */
+.sheet-body .hint{ display:block; margin:2px 0 10px; line-height:1.7; }
+.sheet-body .codebox{ min-height:130px; resize:none; }
+.sheet-body .badge-prev-wrap{ padding:20px 10px; }
+.sheet-body .css-stage{ min-height:210px; }
+.sheet-body .chips{ gap:8px; }
+.sheet-body .base-emojis{ max-height:38vh; overflow-y:auto; }
+.sheet-body .row.wrap{ gap:8px; }
+.sheet-body .mini{ display:flex; align-items:center; gap:8px; width:100%; }
+.sheet-body .mini input[type=range]{ flex:1 1 auto; }
+.sheet-body .check{ min-height:42px; }
+
+/* info/help sheet */
+.info-sheet p{ color:var(--mut); font-size:13.5px; line-height:1.85; margin-bottom:10px; }
+.info-sheet h2{ font-size:18px; margin:0 0 8px; }
+.info-sheet .hint{ background:rgba(255,255,255,.05); border-radius:12px; padding:10px 12px; display:block; }
+
+/* ------------------------------------------------------- 4. ছোট পর্দায় */
+@media (max-width:420px){
+  .tbtn{ width:58px; min-height:58px; }
+  .tbtn .ti{ font-size:19px; }
+  .tbtn .tl{ font-size:9px; max-width:52px; }
+  .app-dock .btn{ font-size:10px; min-height:50px; }
+  .sheet{ max-height:78%; }
+}
+@media (max-height:640px){
+  .tbtn{ min-height:54px; }
+  .app-dock .btn{ min-height:46px; }
+  .app-toolbar{ padding-bottom:3px; }
+}
+/* ডেস্কটপে ফ্রেমটা একটু চওড়া ও বেশি উচ্চতার */
+@media (min-width:1024px) and (min-height:760px){
+  .app-frame{ max-width:680px; }
+  .tbtn{ width:70px; }
+}
